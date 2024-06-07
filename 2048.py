@@ -241,7 +241,6 @@ def move_tiles(window, tiles, clock, direction, difficulty):
 
 
 def end_move(tiles, difficulty, window, score):
-    print(len(tiles))
     if len(tiles) == 16: # and no_moves_left(tiles):
         end_screen(window, score)
         return "lost"
@@ -274,23 +273,6 @@ def generate_tiles():
 
     return tiles
 
-def no_moves_left(tiles):
-    for row in range(ROWS):
-        for col in range(COLS):
-            tile = tiles.get(f"{row}{col}")
-            if not tile:
-                return False
-            if row > 0 and tile.value == tiles.get(f"{row-1}{col}", Tile(0,0,0)).value:
-                return False
-            if col > 0 and tile.value == tiles.get(f"{row}{col-1}", Tile(0,0,0)).value:
-                return False
-            if row < ROWS - 1 and tile.value == tiles.get(f"{row+1}{col}", Tile(0,0,0)).value:
-                return False
-            if col < COLS - 1 and tile.value == tiles.get(f"{row}{col+1}", Tile(0,0,0)).value:
-                return False
-    return True
-
-
 def end_screen(window, score):
     window.fill(BACKGROUND_COLOR)
     end_font = pygame.font.SysFont("Arial", 80, bold=True)
@@ -309,15 +291,12 @@ def end_screen(window, score):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                return "quit"
-
-            # Start a new game
+                return
+            
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
-                    return "restart"
-                
-                
-
+                    score = 0
+                    return
             
         window.blit(end_text, end_rect)
         window.blit(score_text, score_rect)
@@ -358,18 +337,16 @@ def main(window):
                         game_state = move_tiles(window, tiles, clock, "down", difficulty)
 
                     if game_state == "lost":
-                        result = end_screen(window, score)
-                        if result == "restart":
-                            run = False
-                            break
-                        elif result == "quit":
-                            run = False
-                            pygame.quit()
-                            return
+                        end_screen(window, score)
+                        run = False  # Stop the current game loop
+
+                    if event.key == pygame.K_r:
+                        run = False  # Stop the current game loop to restart
+                        score = 0
 
             draw(window, tiles)
 
-        pygame.quit()
+    pygame.quit()
 
 
 
