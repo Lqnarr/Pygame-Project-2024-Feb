@@ -7,6 +7,7 @@
 ### Description
 - Player tries to get the highest score possible. Press left arrow to go left, right arrow to go right, vice versa.
 - Player can choose Easy or Hard difficulty.
+- Initial score is set to 16, because that is the highest number a random tile can be spawned
 
 ### How to run
 Press the run button in the 2048 file.
@@ -20,5 +21,9 @@ Press the run button in the 2048 file.
 
 ### Known bugs
  - Occationally, some tiles will disappear randomly upon merge.
- - Restarting game does not change the score to 0
+ - Restarting game does not reset the score to 0
+ - If on "game over" screen, need to press R twice to restart.
+
+ ### Attribution
+ https://youtu.be/6ZyylFcjfIg?feature=shared
  

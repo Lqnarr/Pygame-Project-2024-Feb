@@ -6,7 +6,7 @@ pygame.init()
 
 FPS = 90
 
-score = 2
+score = 16
 
 WIDTH, HEIGHT = 800, 800
 ROWS = 4
@@ -342,7 +342,6 @@ def main(window):
 
                     if event.key == pygame.K_r:
                         run = False  # Stop the current game loop to restart
-                        score = 0
 
             draw(window, tiles)
 
