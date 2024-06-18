@@ -21,8 +21,8 @@ Press the run button in the 2048 file.
 
 ### Known bugs
  - Occationally, some tiles will disappear randomly upon merge.
- - Restarting game does not reset the score to 0
  - If on "game over" screen, need to press R twice to restart.
+ - Need to press the red X twice to close the game.
 
  ### Attribution
  https://youtu.be/6ZyylFcjfIg?feature=shared

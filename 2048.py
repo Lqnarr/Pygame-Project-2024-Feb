@@ -6,7 +6,7 @@ pygame.init()
 
 FPS = 90
 
-score = 16
+score = 2
 
 WIDTH, HEIGHT = 800, 800
 ROWS = 4
@@ -133,7 +133,7 @@ def draw(window, tiles):
 
     draw_grid(window)
 
-    score_text = FONT.render(f"Score: {score}", 1, FONT_COLOR)
+    score_text = FONT.render(f"Top Score: {score}", 1, FONT_COLOR)
     window.blit(score_text, (5, 5))
 
     pygame.display.update()
@@ -280,7 +280,7 @@ def end_screen(window, score):
     again_font = pygame.font.SysFont("Arial", 60, bold=True)
     
     end_text = end_font.render("Game Over", 1, FONT_COLOR)
-    score_text = score_font.render(f"Score: {score}", 1, FONT_COLOR)
+    score_text = score_font.render(f"Top Score: {score}", 1, FONT_COLOR)
     again_text = again_font.render("To play again, press R", 1, FONT_COLOR)
     
     end_rect = end_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
