@@ -7,7 +7,7 @@
 ### Description
 - Player tries to get the highest score possible. Press left arrow to go left, right arrow to go right, vice versa.
 - Player can choose Easy or Hard difficulty.
-- Initial score is set to 16, because that is the highest number a random tile can be spawned
+- Initial score is set to 2
 
 ### How to run
 Press the run button in the 2048 file.

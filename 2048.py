@@ -329,7 +329,7 @@ def end_screen(window, score):
         pygame.display.update()    
 
 
-# Make the game run and FPS settings
+# Make the game runable and detect controls
 def main(window):
     clock = pygame.time.Clock()
     
