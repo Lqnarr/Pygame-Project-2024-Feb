@@ -4,10 +4,13 @@ import math
 
 pygame.init()
 
+#Change Speed of game
 FPS = 90
 
+# Initial score
 score = 2
 
+# Initialize screen settings
 WIDTH, HEIGHT = 800, 800
 ROWS = 4
 COLS = 4
@@ -23,9 +26,12 @@ FONT_COLOR = (119, 110, 101)
 FONT = pygame.font.SysFont("Arial", 60, bold=True)
 MOVE_VEL = 20
 
+# Create the screen / window
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2048")
 
+
+# Drawing starting screen with all the text
 def draw_starting_screen(window):
     window.fill(BACKGROUND_COLOR)
     title_font = pygame.font.SysFont("Arial", 80, bold=True)
@@ -47,6 +53,8 @@ def draw_starting_screen(window):
     
     return easy_rect, hard_rect
 
+
+# Display the selection of difficulty + detect user input
 def select_difficulty():
     while True:
         easy_rect, hard_rect = draw_starting_screen(WINDOW)
@@ -63,6 +71,8 @@ def select_difficulty():
 
 
 class Tile:
+
+    # colors of tiles
     COLORS = [
         (237, 229, 218),
         (238, 225, 201),
@@ -73,8 +83,15 @@ class Tile:
         (237, 208, 115),
         (237, 204, 99),
         (236, 202, 80),
+        (232, 232, 88),
+        (250, 0, 0),
+        (214, 36, 13),
+        (237, 14, 167),
+        (196, 90, 219)
     ]
 
+
+    # Initialize tiles
     def __init__(self, value, row, col):
         self.value = value
         self.row = row
@@ -82,11 +99,13 @@ class Tile:
         self.x = col * RECT_WIDTH
         self.y = row * RECT_HEIGHT
 
+    # Set colors of the tiles
     def get_color(self):
         color_index = int(math.log2(self.value)) - 1
         color = self.COLORS[color_index]
         return color
-
+    
+    # Draw the tiles
     def draw(self, window):
         color = self.get_color()
         pygame.draw.rect(window, color, (self.x, self.y, RECT_WIDTH, RECT_HEIGHT))
@@ -100,6 +119,7 @@ class Tile:
             ),
         )
 
+    # Set position of the tiles
     def set_pos(self, ceil=False):
         if ceil:
             self.row = math.ceil(self.y / RECT_HEIGHT)
@@ -108,11 +128,12 @@ class Tile:
             self.row = math.floor(self.y / RECT_HEIGHT)
             self.col = math.floor(self.x / RECT_WIDTH)
 
+    # Move the tiles
     def move(self, delta):
         self.x += delta[0]
         self.y += delta[1]
 
-
+# Set up grid of the game
 def draw_grid(window):
     for row in range(1, ROWS):
         y = row * RECT_HEIGHT
@@ -124,7 +145,7 @@ def draw_grid(window):
 
     pygame.draw.rect(window, OUTLINE_COLOR, (0, 0, WIDTH, HEIGHT), OUTLINE_THICKNESS)
 
-
+# Display the tiles and score
 def draw(window, tiles):
     window.fill(BACKGROUND_COLOR)
 
@@ -138,7 +159,7 @@ def draw(window, tiles):
 
     pygame.display.update()
 
-
+# Get a random position for the tiles to spawn
 def get_random_pos(tiles):
     row = None
     col = None
@@ -151,7 +172,7 @@ def get_random_pos(tiles):
 
     return row, col
 
-
+# All the movement of the tiles
 def move_tiles(window, tiles, clock, direction, difficulty):
     global score
     updated = True
@@ -202,6 +223,7 @@ def move_tiles(window, tiles, clock, direction, difficulty):
         )
         ceil = False
 
+    # Check conditions and update max score and update tiles
     while updated:
         clock.tick(FPS)
         updated = False
@@ -239,9 +261,9 @@ def move_tiles(window, tiles, clock, direction, difficulty):
     return end_move(tiles, difficulty, window, score)
 
 
-
+# Detect if there are no moves left
 def end_move(tiles, difficulty, window, score):
-    if len(tiles) == 16: # and no_moves_left(tiles):
+    if len(tiles) == 16:
         end_screen(window, score)
         return "lost"
 
@@ -249,14 +271,15 @@ def end_move(tiles, difficulty, window, score):
     if len(tiles) == 15:
         num_new_tiles = 1
 
+    # New tiles range of numberes
     for _ in range(num_new_tiles):
         row, col = get_random_pos(tiles)
-        tiles[f"{row}{col}"] = Tile(random.choice([2, 4, 8, 16]), row, col)
+        tiles[f"{row}{col}"] = Tile(random.choice([2, 4, 8, 16, 32]), row, col)
     
     return "continue"
 
 
-
+# Update tiles
 def update_tiles(window, tiles, sorted_tiles):
     tiles.clear()
     for tile in sorted_tiles:
@@ -264,7 +287,7 @@ def update_tiles(window, tiles, sorted_tiles):
 
     draw(window, tiles)
 
-
+# Generate a random tile everytime the user moves
 def generate_tiles():
     tiles = {}
     for _ in range(2):
@@ -273,6 +296,7 @@ def generate_tiles():
 
     return tiles
 
+# Draw and create end score, including all the text
 def end_screen(window, score):
     window.fill(BACKGROUND_COLOR)
     end_font = pygame.font.SysFont("Arial", 80, bold=True)
@@ -305,7 +329,7 @@ def end_screen(window, score):
         pygame.display.update()    
 
 
-
+# Make the game run and FPS settings
 def main(window):
     clock = pygame.time.Clock()
     
@@ -350,6 +374,6 @@ def main(window):
 
 
 
-
+# Run the program
 if __name__ == "__main__":
     main(WINDOW)
